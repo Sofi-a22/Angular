@@ -1,0 +1,58 @@
+<!-- ========== PART 1: COUNTER (set / update / computed) ========== -->
+<h2>Counter</h2>
+<p>count = <b>{{ count() }}</b> | double (computed) = <b>{{ double() }}</b></p>
+
+<button (click)="count.set(10)">set(10)</button>
+<button (click)="count.set(0)">set(0)</button>
+<button (click)="count.update(c => c + 1)">update +1</button>
+<button (click)="count.update(c => c * 2)">update ×2</button>
+
+<hr />
+
+<!-- ========== PART 2: PRODUCTS TABLE ========== -->
+<h2>Products</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Qty</th>
+      <th>Total</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (p of products(); track p.id) {
+      <tr>
+        <td>{{ p.name }}</td>
+        <td>{{ p.price }} MAD</td>
+        <td>{{ p.qty }}</td>
+        <td>{{ p.price * p.qty }} MAD</td>
+        <td>
+          <button (click)="increase(p.id)">+</button>
+          <button (click)="decrease(p.id)">-</button>
+          <button (click)="remove(p.id)">Delete</button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<p>Items count (computed): <b>{{ totalItems() }}</b></p>
+<p>Total price (computed): <b>{{ totalPrice() }} MAD</b></p>
+
+<!-- Add a product -->
+<h3>Add a product</h3>
+<input #name placeholder="Name" />
+<input #price type="number" placeholder="Price" />
+<button (click)="add(name.value, +price.value); name.value=''; price.value=''">
+  Add (update + spread)
+</button>
+
+<!-- The trap -->
+<h3>Test the push trap</h3>
+<button (click)="addWithPush()">Add with push (WRONG)</button>
+<button (click)="reset()">Reset (set)</button>
+
+<p class="log">Last action: {{ lastAction() }}</p>
